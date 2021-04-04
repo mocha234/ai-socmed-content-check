@@ -1,45 +1,62 @@
+
+
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>jQuery AJAX POST Form</title>
-    <meta charset="utf-8">
+
 </head>
 <body>
 
-<div id="response">
-    <pre></pre>
-</div>
+<form id="form" action="" method="post">
+    Column2: <input type="text" name="column2"><br>
+    Text: <input type="text" name="text"><br>
+    Follower count: <input type="text" name="follower"><br>
+    Friends count: <input type="text" name="friends"><br>
+    Industries: <input type="text" name="industries"><br>
+    Time: <input type="text" name="time"><br>
+    Day of Weeks: <input type="text" name="day"><br>
+    hashtags_count: <input type="text" name="hashtags_count"><br>
+    length_hashtag: <input type="text" name="length_hashtag"><br>
+    user_mentions_count: <input type="text" name="user_mentions_count"><br>
+    media: <input type="text" name="media"><br>
+    Column13: <input type="text" name="column13"><br>
+    Column14: <input type="text" name="column14"><br>
+    Column15: <input type="text" name="column15"><br>
 
-<form id="my-form">
-    <input type="text" id="first-name" name="first-name" placeholder="First Name" />
-    <input type="text" id="last-name" name="last-name" placeholder="Last Name" />
-
-    <button type="submit">Submit</button>
+<input id="submit" type="button" name="submit" value="submit">
 </form>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
-    (function($){
-        function processForm( e ){
+    $(document).ready(function(){
+        // click on button submit
+        $("#submit").on('click', function(){
+            // send ajax
             $.ajax({
-                url: "http://4a6b5279-8867-4846-9feb-2a2ca20c9d71.eastus2.azurecontainer.io/score",
-                dataType: 'text',
-                type: 'post',
-                contentType: 'application/x-www-form-urlencoded',
-                data: $(this).serialize(),
-                success: function( data, textStatus, jQxhr ){
-                    $('#response pre').html( data );
+                url: "https://auto-1.vault.azure.net/keys/automl/2f181b67ba5f40d8aea3c9115c267460", // url where to submit the request
+                type : "POST", // type of action POST || GET
+                dataType : 'json', // data type
+                crossDomain: true,
+                headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer 2f181b67ba5f40d8aea3c9115c267460/',
+            'Content-Type': 'application/json',
+        },
+                data : $("#form").serialize(), // post data || get data
+                success : function(result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    console.log(result);
                 },
-                error: function( jqXhr, textStatus, errorThrown ){
-                    console.log( errorThrown );
+                error: function(xhr, resp, text) {
+                    console.log(xhr, resp, text);
                 }
-            });
+            })
+        });
+    });
 
-            e.preventDefault();
-        }
-
-        $('#my-form').submit( processForm );
-    })(jQuery);
 </script>
 </body>
 </html>
